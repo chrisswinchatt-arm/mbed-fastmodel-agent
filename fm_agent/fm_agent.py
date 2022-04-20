@@ -57,8 +57,9 @@ class FastmodelAgent():
             pass
 
     def __del__(self):
-        if isinstance(self.subprocess, Popen):
-            self.subprocess.kill()
+        if isinstance(self.subprocess, Popen) and self.subprocess.poll() is None:
+            self.subprocess.terminate()
+            self.subprocess.wait()
 
     def setup_simulator(self, model_name, model_config):
         """ setup the simulator, this is crucial before you can start a simulator.
